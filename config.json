@@ -1,0 +1,24 @@
+{
+	"config": [
+		{
+			"hostname": "192.155.87.80",
+			"username": "devops",
+			"password": "dev@orb",
+			"commands": [
+				"pg_dump --no-privilege --column-insert -h localhost -U ledrop devops_ledrop -O > ledrop_dbdump20190│930-bak.sql",
+				"sudo rclone copy devopsbackup:/var/www/html/ledrop . -P --transfers 2",
+				"pg_dump --no-privilege --column-insert -h localhost -U devops verditer -O > verditer_dbdump20190│930-bak.sql",
+				"sudo rclone copy devopsbackup:/var/www/html/verditer . -P --transfers 2",
+				"sudo rclone copy devopsbackup:/home/devops/ledrop_dbdump20190930-bak.sql"
+			]
+		},
+		{
+			"hostname": "45.33.51.87",
+			"username": "devops",
+			"password": "dev@orb",
+			"commands": [
+				"rclone copy luxeFTP:public_html . -P --transfers 2"
+			]
+		}
+	]
+}
