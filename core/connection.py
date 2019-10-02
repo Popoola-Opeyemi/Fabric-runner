@@ -19,7 +19,10 @@ class Handler():
             if output == '' and process.poll() is not None:
                 break
             if output:
-                print (output.strip())
+                print (output.decode().strip())
+            if output == b'':
+                break
+                
         rc = process.poll()
         return rc
 

@@ -16,6 +16,7 @@ def runner():
       H.colors.print_warning("Running {} command {}".format(cmd["type"], cmd["cmd"]))
       if (cmd["type"] == "local"):
         H.run_local(cmd["cmd"])
+        print("Finished......")
       else:
         con.sudo(cmd["cmd"])
         
