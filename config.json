@@ -14,7 +14,7 @@
 		},
 		{
 			"hostname": "45.33.51.87",
-			"username": "devops",
+			"username": "sysdev",
 			"password": "dev@orb",
 			"commands": [
 				"rclone copy luxeFTP:public_html . -P --transfers 2"
