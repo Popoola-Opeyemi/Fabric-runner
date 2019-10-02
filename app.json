@@ -1,0 +1,15 @@
+{
+    "mode":  "production",
+    "database": {
+     "dsn": "pgsql",
+      "host": "localhost",
+      "port": 5432,
+      "dbname": "devops_ledrop",
+      "user": "ledrop",
+      "password": "orbdba"
+    },
+    "pagination": {
+        "page": 25,
+        "blog" : 10
+    }
+}

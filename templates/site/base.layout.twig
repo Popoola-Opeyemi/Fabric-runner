@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <title></title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <link href="/site/css/bootstrap.css" rel="stylesheet" type="text/css" />
+  <link href="/site/css/font-awesome.css" rel="stylesheet" />
+  <link rel="stylesheet" href="/site/css/custom.css" type="text/css" />
+  <link rel="stylesheet" href="/site/css/style.css" type="text/css" /> 
+  {% block head_additions %} {% endblock %}
+
+</head>
+
+{% set bgImage = "" %} 
+{% for key, value in widgets['background_image']['images'] %}
+{% set bgImage = value.url %} 
+{% endfor %}
+
+<body style="background-image: url(/uploads/files/{{ bgImage ? bgImage : "default_bg.jpg" }}";>
+
+  {% block header %}
+  <header>
+    <nav class="navbar navbar-toggleable-md navbar-inverse bg-primary shadow">
+      <div class="container">
+        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#nav-content" aria-controls="nav-content"
+          aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <!-- Brand -->
+        {% if widgets['header'] and widgets['header']['images'] %}
+        <a class="navbar-brand navigation-link" href="/" style="background: url( '/uploads/files/{{ widgets["header"]["images"]["ledrop-logo"].url}}' );
+              background-repeat: no-repeat;
+              width: 210px;
+              height: 90px;
+              background-size: contain;
+              background-position: left;
+              margin-bottom: 5px;">
+        </a>
+        {% endif %}
+        <!-- Links -->
+        <div class="collapse navbar-collapse" id="nav-content">
+          <ul class="navbar-nav ml-auto">
+            {% if internalmenu %} 
+
+              {% for menu in internalmenu %} 
+                {% set isMenu = menu['label'] == 'brands' %} 
+                {% set isCompany = menu['label'] == 'company' %} 
+
+                {% if isCompany %} 
+                <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle" data-toggle="dropdown" id="Preview" href="/{{ menu['url'] }}" role="button" aria-haspopup="true"
+                    aria-expanded="false">Company</a>
+                  <div class="dropdown-menu" aria-labelledby="Preview">
+                    <a class="dropdown-item" href="/{{ menu['url'] }}#about"> Our Company</a>
+                    <a class="dropdown-item" href="/{{ menu['url'] }}#values"> Our Values</a>
+                    <a class="dropdown-item" href="/{{ menu['url'] }}#services">Our Services</a>
+                    <a class="dropdown-item" href="/{{ menu['url'] }}#capabilities">Our Capabilities</a>
+                    <a class="dropdown-item" href="/{{ menu['url'] }}#market">Our Market</a>
+                  </div>
+                </li>
+                {% elseif isMenu %} 
+                  {% if visitor['isLoggedIn'] %}
+                    <li class="nav-item {{ isMenu ? 'dropdown' : '' }} {{ menu['url'] == link ? 'active' : '' }}">
+                      <a class="nav-link {{ isMenu ? 'dropdown-toggle' : '' }}" data-toggle="{{ isMenu ? 'dropdown' : ''}}" href="/{{ menu['url'] }}">
+                        {{ menu['name'] }}
+                      </a>
+                      {# if for brands menu #} 
+                      {% if isMenu %}
+                      <div class="dropdown-menu" aria-labelledby="brands">
+                        {% for brand in brands %}
+                        <a class="dropdown-item" href="/{{ menu.url }}/{{ brand.name }}">{{ brand.name }}</a>
+                        {% endfor %}
+                      </div>
+                      {% endif %} {# endif for brands menu #}
+                    </li>
+                  {% else %} 
+                  <li class="nav-item {{ menu['url'] == link ? 'active' : '' }}">
+                    <a class="nav-link" href="{{ path_for('loginPage') }}">
+                      {{ menu['name'] }}
+                    </a>
+                  </li>
+                  {% endif %}
+                {% else %} 
+                <li class="nav-item  {{ menu['url'] == link ? 'active' : '' }}">
+                  <a class="nav-link" href="/{{ menu['url'] }}">
+                    {{ menu['name'] }}
+                  </a>
+                </li>
+                {% endif %} {# endif for menu #} 
+
+              {% endfor %} {# end of internalmenu loop #}
+            {% endif %}{# endif for internal menu #}
+            <li class="nav-item">
+              <a class="nav-link" href="/#contact">Contact</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+  </header>
+  {% endblock %}
+  
+  <div class="wrapper container shadow">
+
+    {% block content %} {% endblock %} {% block footer %}
+    <section class="footer">
+      <div class="row d-flex justify-content-center">
+
+        <div class="col-md-8">
+          <div class="row d-flex justify-content-start">
+            <div class="col d-flex justify-content-start newsletter">
+              <h4 style="color:#fff; margin:0;display:flex;align-self:center;">Newsletter</h4>
+            </div>
+            <div class="col-md-8">
+             
+              <script type='text/javascript' src='//s3.amazonaws.com/downloads.mailchimp.com/js/mc-validate.js'></script><script type='text/javascript'>(function($) {window.fnames = new Array(); window.ftypes = new Array();fnames[0]='EMAIL';ftypes[0]='email';fnames[1]='FNAME';ftypes[1]='text';fnames[2]='LNAME';ftypes[2]='text';fnames[3]='BIRTHDAY';ftypes[3]='birthday';}(jQuery));var $mcj = jQuery.noConflict(true);</script>
+              <!--End mc_embed_signup-->
+              <form action="https://ledrop.us17.list-manage.com/subscribe/post?u=c65d548c98081e3afe5653440&amp;id=e6e85a5432" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="d-flex justify-content-center" target="_blank">
+                <input type="email" value="" name="EMAIL" class="required email form-control" id="mce-EMAIL" placeholder="Email" required>
+                <button class="btn" name="subscribe" id="mc-embedded-subscribe" >Subscribe</button>
+
+                <div id="mce-responses" class="clear">
+                    <div class="response" id="mce-error-response" style="display:none"></div>
+                    <div class="response" id="mce-success-response" style="display:none"></div>
+                </div>   
+              </form>
+              
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-3">
+          <div class="social d-flex justify-content-end">
+            <ul>
+              <li>
+                <a href="">
+                  <i class="fa fa-facebook-square"></i>
+                </a>
+              </li>
+              <li>
+                <a href="">
+                  <i class="fa fa-twitter-square"></i>
+                </a>
+              </li>
+              <li>
+                <a href="">
+                  <i class="fa fa-instagram"></i>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+      </div>
+    </section>
+    <section class="container copyright">
+      <div class="text-center p-2" style="font-weight: bold">
+        © Copyright Ledrop {{ now|date('Y') }},
+        <small>Powered by Orb Solutions</small>
+      </div>
+    </section>
+    {% endblock %}
+
+  </div>
+
+
+  <script src="/js/jquery.js"></script>
+  <script src="/js/tether.min.js"></script>
+  <script src="/js/bootstrap.js"></script> {% block scripts %} {% endblock %}
+
+</body>
+
+</html>

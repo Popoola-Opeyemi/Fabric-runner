@@ -1,13 +1,27 @@
 from core.util import parseJson
 from fabric import Connection, Config, ThreadingGroup
+import core.colors as colors
+import subprocess, shlex
 
 
-class Handler:
+class Handler():
     server_config = parseJson('config.json')['config']
+    colors = colors
 
     def __init__(self):
         self.connectionPool = []
         self.servers_list = Handler.server_config
+
+    def run_local(self,command):
+        process = subprocess.Popen(shlex.split(command), stdout=subprocess.PIPE, stderr = subprocess.PIPE)
+        while True:
+            output = process.stdout.readline()
+            if output == '' and process.poll() is not None:
+                break
+            if output:
+                print (output.strip())
+        rc = process.poll()
+        return rc
 
     def get_sudo(self, passwd):
         return Config(overrides={'sudo': {'password': passwd}})
@@ -36,4 +50,6 @@ class Handler:
         config = Handler.server_config
         for conf in config:
             self.openHandler(conf)
-        print("Total host connected {}".format(len(self.connectionPool)))
+        Handler.colors.print_status(
+            "Connected to {} host(s)".format(len(self.connectionPool)))
+        # print("Total host connected {}".format(len(self.connectionPool)))

@@ -1,0 +1,114 @@
+{% extends "site/base.layout.twig" %}
+
+
+{% block content %}
+
+ <section class="login">
+  <div class="row">
+    <div class="col-md-2">
+    </div>
+    <div class="col-md-8">
+        <div class="">
+          <h1 class="text-center mb-5">Request Access</h1>
+          <div class="row">
+            <div class="col-md-2"></div>
+            <div class="col-md-8">
+                {% if error %} 
+                <div class="alert alert-danger mx-3" role="alert">
+                    <i class="fa fa-exclamation-circle"></i>&nbsp;
+                    <strong> {{ error }} </strong>
+                </div>
+                {% endif %}
+                {% if success %} 
+                <div class="alert alert-success mx-3" role="alert">
+                    <i class="fa fa-exclamation-circle"></i>&nbsp;
+                    <strong> {{ success }} </strong>
+                </div>
+                {% endif %}
+
+                <form action="{{ path_for('postSubscriberSignUp') }}" method="post" class="pl-3 pr-3">
+                    {% if errors.first_name %}
+                    <small class="red">{{ errors.first_name }}</small>
+                    {% endif %}
+                    <div class="input-group mb-4">
+                        <input type="text" 
+                                name="first_name" 
+                                value="{{ old.first_name }}" 
+                                class="form-control form-control-lg {{ errors.first_name ? 'has-error' : '' }}" 
+                                id="exampleInputAmount" 
+                                placeholder="First name">
+                        
+                    </div>
+                    
+
+                    {% if errors.last_name %}
+                    <small class="red">{{ errors.last_name }}</small>
+                    {% endif %}
+                    <div class="input-group mb-4">
+                        <input type="text" 
+                                name="last_name" 
+                                value="{{ old.last_name }}" 
+                                class="form-control form-control-lg {{ errors.last_name ? 'has-error' : '' }}" 
+                                id="exampleInputAmount" 
+                                placeholder="Last name">
+                    </div>
+                    
+
+                    <div>
+
+                      {% if errors.email %}
+                      <small class="red">{{ errors.email }}</small>
+                      {% elseif errors.emailExists %}
+                      <small class="red">{{ errors.emailExists }}</small>
+                      {% endif %}
+                      <div class="input-group mb-4">
+                          <input type="email" 
+                                name="email" 
+                                value="{{ old.email }}" 
+                                class="form-control form-control-lg {{ errors.email ? 'has-error' : '' }}" 
+                                id="exampleInputAmount" 
+                                placeholder="Email address">
+                      </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label>
+                          <input type="checkbox" name="agreement" {{ old.agreement ? 'checked' : '' }}> 
+                          <span>
+                            I agree to the 
+                            <a style="color:#5b81b1;" href="/{{ terms_page['url'] }}">Terms of Service</a> 
+                            and 
+                            <a style="color:#5b81b1;" href="/{{ privacy_page['url'] }}">Privacy Policy</a>
+                          </span>
+                        </label>
+                        {% if errors.agreement %} 
+                        <br><span class="red mb-3">You must agree to the Terms of Service and Privacy Policy to register.</span>
+                        {% endif %}
+                    </div>
+                    
+                    
+                    <div class="login-button text-center ">                                    
+                      <input class="btn btn-primary btn-sm btn-login mt-3" type="submit" value="Submit">
+                    </div><!--  end of .login-button  -->
+                  
+                    <div class="text-center mt-3">
+                        <!-- <a href="/">Cancel</a> -->
+                      </div>
+                      <hr>
+                    <div class="text-center mt-2">
+                      Already granted access? <a style="color:#5b81b1;" class="" href="{{ path_for('loginPage') }}">Login</a>
+                    </div>
+                    
+                   
+                </form>
+            </div>
+            <div class="col-md-2"></div>
+          </div>
+        </div>
+    </div>
+    <div class="col-md-2">
+    </div>
+  </div>    
+  </section><!--  end of .login  -->
+
+{% endblock %}

@@ -1,0 +1,24 @@
+{% extends "site/base.layout.twig" %}
+
+
+{% block banner_addition %} 
+{% endblock %}
+
+{% block content %}
+<section class="template-intro hidden-sm-down">
+    <div class="jumbotron intro-background">
+        <div class="brands_intro_content">
+          <h1 class="ws-8 mt-5 pt-2">{{ page.title }}</h1>
+        </div>
+    </div>
+</section>
+
+ <section class="" style="background-color:#fff">
+    <div class="row" style="padding:5rem;">
+      <div class="col-md-12 col-sm-12 page-content">
+          {{ page.content | raw }}
+      </div>
+    </div>    
+</section>
+
+{% endblock %}

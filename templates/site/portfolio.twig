@@ -1,0 +1,41 @@
+{% extends "site/base.layout.twig" %} 
+
+
+{% block content %}
+<section class="template-intro hidden-sm-down">
+  <div class="jumbotron intro-background">
+      <div class="brands_intro_content"></div>
+  </div>
+</section>
+
+<div class="company">
+
+  <h1 class="page-header hidden-md-down">{{ page['title'] }}</h1>
+  <h1 class="mobile-header hidden-md-up">{{ page['title'] }}</h1>
+  {% for widget in widgets['partners'].children %}
+  <section class="" id="about">
+    <h2 class="text-center portfolio-heading">{{ widget.heading }}</h2>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="portfolio-item">
+          {{ widget.content | raw }}
+        </div>
+        {% set img = "" %} 
+        {% for key, val in widget['images'] %} 
+          {% set img = widget['images'][key].url %} 
+        {% endfor %}
+        <div class="portfolio-image hidden-md-down">
+          {% if widget['images'] %} 
+          <img class="img-fluid" src="/uploads/files/{{ img }}">
+          {% else %}
+          <img class="img-fluid" src="/images/default.png">
+          {% endif %}
+        </div>
+      </div>
+      
+    </div>
+  </section>
+  {% endfor %}
+  
+</div>
+{% endblock %}

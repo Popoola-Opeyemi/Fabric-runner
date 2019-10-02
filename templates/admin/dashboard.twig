@@ -1,0 +1,151 @@
+{% extends "admin/layout/dashboard.twig" %}
+
+{% block page_heading %}
+<div class="page-header">
+	<h1 class="page__headerTitle">Site Analytics</h1>
+</div> 
+{% endblock %}
+
+
+{% block section %} 
+  <div class="card mb-4">
+    <div class="card-header">
+      <h6 class="card-title">Visitors' Access Stats</h6>
+    </div>
+    <div class="card-block">
+      <div class="row">
+        <div class="col-md-4 d-flex flex-column align-items-center">
+          <div class="info-box">
+            <p>Pending</p>
+            <h2>{{ memberStats['pending'] }}</h2>
+          </div>
+        </div>
+        <div class="col-md-4 d-flex flex-column align-items-center">
+          <div class="info-box">
+            <p>Granted</p>
+            <h2>{{ memberStats['granted'] }}</h2>
+          </div>
+        </div>
+        <div class="col-md-4 d-flex flex-column align-items-center">
+          <div class="info-box">
+            <p>Revoked</p>
+            <h2>{{ memberStats['revoked'] }}</h2>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+      <div class="card-header">
+        <div class="row">
+          <div class="col-md-9">
+            Daily Page Views
+          </div>
+          <div class="col-md-3">
+            <select name="domain" id="domain" class="form-control">
+              <option value="1">All</option>
+              <option value="2">Visitors </option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="card-block pb-0">
+        <canvas id="daily_usage" 
+                width="500" 
+                height="130">
+        </canvas> 
+    </div>
+  </div>
+
+  <div class="row mt-4 mb-5">
+
+    <div class="col-md-6">
+      <div class="card" >
+        
+        <div class="card-header">Page Views <span class="badge badge-default">Past 30 days</span></div>
+        <div class="card-block" style="padding:3px;height:300px;overflow-y:scroll">
+          <table class="table table-striped table-sm">
+            <thead class="">
+              <tr style="color: black">
+                <th width="60%">Page</th>
+                <th width="20%">Total</th>
+                <th width="20%">Average</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              {% for view in page_totals %}
+              <tr>
+                <th scope="row">
+                    {{ view.page_url }}
+                </th>
+                <td> {{ view.total_visits }} </td>
+                <td> {{ view.avg_visits }} </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-3">
+      <div class="card">
+        <div class="card-header">Browsers</div>
+        <div class="card-block" style="height:300px;">
+        <canvas id="browser" 
+              width="500" 
+              height="500">
+        </canvas> 
+        </div>
+      </div>
+    </div>
+    
+    <div class="col-md-3">
+      <div class="card">
+        <div class="card-header">Top 5 referers</div>
+        <div class="card-block" style="height:300px;">
+        <canvas id="referer" 
+              width="500" 
+              height="500">
+        </canvas> 
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+{% endblock %} 
+
+{% block script %} 
+
+
+  <script src="/js/Chart.bundle.min.js"></script> 
+  <script src="/js/chart.js"></script> 
+  <script>   
+    daily_usage = JSON.parse( '{{ daily_usage|raw }}')
+    browser_usage = JSON.parse( '{{ browser_usage|raw }}' )
+    top_referers = JSON.parse( '{{ top_referers|raw }}' )
+    
+    $(function(){
+      showDailyUsage();
+    })
+
+    domain = window.localStorage['analytic_domain'] 
+    $('#domain').find('option').each(function(i, e) {
+      if ($(e).val() == domain) {
+        $('#domain').prop('selectedIndex', i)
+      }
+    })
+    
+    $('#domain').on('change', function() {
+      url = new URL(document.location.href)
+      domain = $('#domain').val()
+      window.localStorage['analytic_domain'] = domain 
+      url.search = "?domain=" + domain 
+      window.location.replace(url.href) 
+    }) 
+  </script>
+
+{% endblock %} 

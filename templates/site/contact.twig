@@ -1,0 +1,100 @@
+{% extends "site/base.layout.twig" %} 
+
+
+{% block content %}
+{# 
+    {% if widgets['contact'] and widgets['contact']['images']['contact-intro'] %}
+    <section class="contact-promo" 
+             style="background: url('/uploads/files/{{ widgets["contact"]["images"]["contact-intro"].url }}');
+                   background-size: cover;
+                   height: 28rem;
+                   text-align: center;">
+
+        {% if success %}
+        <div class="alert alert-success">{{ success }} </div>
+        {% endif %}
+
+        {% if error %}
+        <div class="alert alert-danger">{{ error }}</div>
+        {% endif %}
+
+        <div class="jumbotron contact-intro">
+          <div class="contact_intro_content">
+            <div class="">
+              <h2 class="">Get In Touch</h2>
+            </div>
+          </div><!--  end of .contact-intro-content  -->
+        </div><!--  end of .contact-intro  -->
+    </section><!--  end of .contact-promo  -->
+    {% endif %}
+#}
+
+    <section class="contact-form">
+      <div class="row">
+        <div class="col-md-1"></div>
+        <div class="col-md-10 main-form">
+          <h2 class="text-center"></h2>
+          {# <h4 class="text-center">{{ widgets['contact'].heading }}</h4> #}
+          <p class="text-center">{{ widgets['ContactItems'].content | raw }}</p>
+          <form action="{{ path_for('postFeedbackForm') }}" method="post" class="ledrop-form">
+            <div class="row">
+              <div class="col-md-6">
+                <input name="name" value="{{ old.name }}"  class="form-control  {{ errors.name ? 'has-error' : 'mb-3' }}" type="text" placeholder="Name">
+                {% if errors.name %} 
+                <small class="red">{{ errors.name }}</small>
+                {% endif %}
+              </div>
+              <div class="col-md-6">
+                <input name="phone" value="{{ old.phone }}" class="form-control  {{ errors.phone ? 'has-error' : 'mb-3' }}" type="text" placeholder="Phone">
+                {% if errors.phone %} 
+                <small class="red">{{ errors.phone }}</small>
+                {% endif %}
+              </div>
+              <div class="col-md-6">
+                <input name="email" value="{{ old.email }}" class="form-control  {{ errors.email ? 'has-error' : 'mb-3' }}" type="email" placeholder="Email">
+                {% if errors.email %} 
+                <small class="red">{{ errors.email }}</small>
+                {% endif %}
+              </div>
+              <div class="col-md-6">
+                <input name="subject" value="{{ old.subject }}" class="form-control  {{ errors.subject ? 'has-error' : 'mb-3' }}" type="text" placeholder="Subject">
+                {% if errors.subject %} 
+                <small class="red">{{ errors.subject }}</small>
+                {% endif %}
+              </div>
+            </div>
+            <textarea class="form-control {{ errors.content ? 'has-error' : '' }}" name="content" cols="30" rows="10" 
+                placeholder="{{ errors.content ? 'This field is required' : 'Your Message' }}">{{ old.content }}</textarea>
+            {% if errors.content %} 
+            <small class="red">{{ errors.content }}</small>
+            {% endif %}
+            <div class="text-center mt-3 mb-3">
+              <input class="btn btn-primary" type="submit" value="Submit"/>
+            </div>
+          </form>
+        </div>
+        <div class="col-md-1"></div>
+      </div>
+    </section>
+    
+    <section class="address-map">
+      <div class="row">
+        <div class="col-md-1"></div>
+        <div class="col-md-10 p-3 pt-5 contact-box">
+          <h2 class="text-center">{{ widgets['contact'].heading }}</h2>
+          <div class="row address-list">
+            <div class="col-md-6 address-info">
+                {{ widgets['contact'].content | raw }}
+            </div>
+            <div class="col-md-1"></div>
+            <div style="overflow-x:hidden;width:300px;" class="col-md-5 map">
+              <div id="map" class="">
+                  <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d4714.662040787225!2d3.4790953089560017!3d6.452737848504856!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x103bf43845110b01%3A0x356f7a438515f050!2sOpeyemisi+Bamidele+Crescent%2C+Lekki+Phase+1%2C+Lekki!5e0!3m2!1sen!2sng!4v1508745623693" width="auto" height="300" frameborder="0" style="border:0" allowfullscreen></iframe>            </div>
+              </div>
+          </div>
+        </div>
+        <div class="col-md-1"></div>
+      </div>
+    </section>
+
+{% endblock %}

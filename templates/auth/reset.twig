@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="/css/bootstrap.css">
+  <link rel="stylesheet" href="/css/styles.css">
+  <title>Reset Password</title>
+</head>
+<body style="background-color: #f7f7f7">
+
+  <div class="container">
+    <div class="row">
+        <div class="col-md-4 offset-md-4 card p-4 mt-5">
+
+        {% if errors.expired_token %}
+            <div class="alert alert-danger" role="alert">
+                <strong>{{ errors.expired_token }} </strong>
+            </div>
+        {% endif %} 
+        {% if errors.invalid_token %}
+            <div class="alert alert-danger     " role="alert">
+                <strong>{{ errors.invalid_token }} </strong>
+            </div>
+        {% endif %} 
+        
+            <div class="card-header" style="font-weight:bold">Set your new password</div>
+
+            <div class="login card-block">
+                <form action="{{ path_for('resetPassword', { 'token': token }) }}" method="post">
+
+                    <div class="form-group">
+                        <label for="password">Password</label> 
+                        <input class="form-control" 
+                              type="password" 
+                              placeholder="Type new password" 
+                              id="password" 
+                              name="password" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="password">Password</label> 
+                        <input class="form-control {{ errors.nomatch ? 'has-error' : ''}}" 
+                              type="password" 
+                              placeholder="Verify password"
+                              id="password" 
+                              name="verify_password" required>
+                        {% if errors.nomatch %}
+                        <small class="red">{{ errors.nomatch }}</small>
+                        {% endif %}
+                    </div>
+
+                    <div class="form-group">
+                        <input type="submit" class="btn btn-block btn-warning" value="Reset">
+                    </div> 
+
+            </div>
+        </div>
+      </div>
+  </div>
+<script src="/js/jquery.js"></script>
+<script src="/js/bootstrap.js"></script>
+<script>
+  
+</script>
+</body>
+</html>
+
+

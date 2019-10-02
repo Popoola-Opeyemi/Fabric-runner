@@ -1,0 +1,146 @@
+{% extends "site/base.layout.twig" %} 
+
+
+{% block content %}
+
+<section class="template-intro hidden-sm-down">
+    <div class="jumbotron intro-background">
+        <div class="brands_intro_content"></div>
+    </div>
+</section>
+
+<section class="news-listing">
+    <h1 class="text-center">News</h1>
+    {% if posts %}
+    <!--logic --> 
+    {% set postLen = posts|length  %} 
+    {% set rowCount = (postLen / 2) | round %}
+    {% set idx = 0 %} 
+    {% for i in 1..rowCount %} 
+      {% if idx <= postLen - 2 %} 
+        <div class="row">
+          <div class="col-md-1"></div>
+          <div class="col-md-5 news-item">
+              <div class="news_image">
+                {% if posts[ idx ]['thumbnail'] %}
+                <a href="{{ path_for('onePost', { url: posts[ idx ]['url'] }) }}">
+                  <img class="img-fluid" src="/uploads/files/{{ posts[ idx ]['thumbnail'] }}" />
+                </a>
+                {% else %}
+                <a href="{{ path_for('onePost', { url: posts[ idx ]['url'] }) }}" >
+                    <img class="img-fluid placeholder_news" src="/site/images/placeholder_news.jpeg">
+                </a>
+                {% endif %}
+              </div>
+              <h3 class="news-heading">{{ posts[ idx ]['title'] }}</h3>
+              <div class="date">
+                  <p><i class="fa fa-calendar"></i> {{ posts[ idx ]['day'] }}/{{ posts[ idx ]['month'] }}/{{ posts[ idx ]['year'] }}</p>
+              </div>
+              <div class="news-intro">{{ posts[ idx ]['intro'] | raw }}</div>
+
+              <div class="row d-flex mb-auto">
+                  <div class="col-md-4"></div>
+                  <div class="col-md-4 button">
+                      <a href="{{ path_for('onePost', { url: posts[ idx ]['url'] }) }}" class="btn btn-primary btn-md"> More </a>
+                  </div>
+                  <div class="col-md-4"></div>
+              </div>
+          </div>
+          <div class="col-md-5 news-item">
+              <div class="news_image">
+                  {% if posts[ idx + 1 ]['thumbnail'] %}
+                  <a href="{{ path_for('onePost', { url: posts[ idx + 1 ]['url'] }) }}">
+                    <img class="img-fluid" src="/uploads/files/{{ posts[ idx + 1 ]['thumbnail'] }}" />
+                  </a>
+                  {% else %}
+                  <a href="{{ path_for('onePost', { url: posts[ idx + 1 ]['url'] }) }}" >
+                      <img class="img-fluid placeholder_news" src="/site/images/placeholder_news.jpeg">
+                  </a>
+                  {% endif %}
+              
+              </div>
+              <h3 class="news-heading">{{ posts[ idx + 1 ]['title'] }}</h3>
+              <div class="date">
+                <p><i class="fa fa-calendar"></i> {{ posts[ idx + 1 ]['day'] }}/{{ posts[ idx + 1 ]['month'] }}/{{ posts[ idx + 1]['year'] }}</p>
+              </div>
+              <div class="news-intro">{{ posts[ idx + 1 ]['intro'] | raw }}</div>
+              
+              <div class="row">
+                <div class="col-md-4"></div>
+                <div class="col-md-4 button">
+                  <a href="{{ path_for('onePost', { url: posts[idx + 1 ]['url'] }) }}" class="btn btn-primary btn-md"> More </a>
+                </div>
+                <div class="col-md-4"></div>
+              </div>
+            </div>
+          <div class="col-md-1"></div>
+        </div>
+      {% else %} 
+        <div class="row">
+          <div class="col-md-1"></div>
+          <div class="col-md-5 news-item">
+            <div class="news_image">
+              {% if posts[ idx ]['thumbnail'] %}
+              <a href="{{ path_for('onePost', { url: posts[ idx ]['url'] }) }}">
+                <img class="img-fluid" src="/uploads/files/{{ posts[ idx ]['thumbnail'] }}" />
+              </a>
+              {% else %}
+              <a href="{{ path_for('onePost', { url: posts[ idx ]['url'] }) }}">
+                  <img class="img-fluid placeholder_news" src="/site/images/placeholder_news.jpeg">
+              </a>
+              {% endif %}
+            </div>
+              <h3 class="news-heading">{{ posts[ idx ]['title'] }}</h3>
+              <div class="date">
+                  <p><i class="fa fa-calendar"></i> {{ posts[ idx ]['day'] }}/{{ posts[ idx ]['month'] }}/{{ posts[ idx ]['year'] }}</p>
+              </div>
+              <div class="news-intro">{{ posts[ idx ]['intro'] | raw }}</div>
+
+              <div class="row">
+                  <div class="col-md-4"></div>
+                  <div class="col-md-4 button">
+                      <a href="{{ path_for('onePost', { url: posts[ idx ]['url'] }) }}" class="btn btn-primary btn-md"> More </a>
+                  </div>
+                  <div class="col-md-4"></div>
+              </div>
+          </div>
+        </div>
+      {% endif %}
+      {% set idx = idx + 2 %}
+    {% endfor %}
+
+    {% else %}
+      
+    <div class="row">
+      <div class="col-md-3"></div>
+      <div class="col-md-6">
+          <div class="p-5">
+              <h3 class="d-flex text-center justify-content-center" style="word-spacing:8px">There are no posts yet.</h3>  
+            </div>
+      </div>
+      <div class="col-md-3"></div>
+    </div>    
+
+    {% endif %}
+
+<hr>
+<div class="d-flex justify-content-center mt-3">
+  {% if records > 1 %}
+    <nav>
+      <ul class="pagination pagination-sm">
+        <li class="page-item {{ pageNumber  - 1 == 0 ? 'disabled' : '' }}">
+          <a class="page-link" href="?page={{ pageNumber - 1 }}" tabindex="-1">Previous</a>
+        </li>
+        {% for i in 1..records %}
+        <li class="page-item {{ pageNumber == i ? 'active' : '' }}"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+        {% endfor %}
+        <li class="page-item {{ pageNumber + 1 > records ? 'disabled' : ''}}">
+          <a class="page-link" href="?page={{ pageNumber + 1 }}">Next</a>
+        </li>
+      </ul>
+    </nav>
+    {% endif %}
+  </div>
+</section>
+    
+{% endblock %}
