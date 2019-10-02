@@ -5,7 +5,7 @@ import subprocess, shlex
 
 
 class Handler():
-    server_config = parseJson('config.json')['config']
+    server_config = parseJson('_config.json')['config']
     colors = colors
 
     def __init__(self):
