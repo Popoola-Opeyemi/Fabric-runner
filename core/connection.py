@@ -13,18 +13,21 @@ class Handler():
         self.servers_list = Handler.server_config
 
     def run_local(self,command):
-        process = subprocess.Popen(shlex.split(command), stdout=subprocess.PIPE, stderr = subprocess.PIPE)
-        while True:
-            output = process.stdout.readline()
-            if output == '' and process.poll() is not None:
-                break
-            if output:
-                print (output.decode().strip())
-            if output == b'':
-                break
+        try:
+            process = subprocess.Popen(shlex.split(command), stdout=subprocess.PIPE, stderr = subprocess.PIPE)
+            while True:
+                output = process.stdout.readline()
+                if output == '' and process.poll() is not None:
+                    break
+                if output:
+                    print (output.decode().strip())
+                if output == b'':
+                    break
                 
-        rc = process.poll()
-        return rc
+            rc = process.poll()
+            return rc
+        except Exception as e:
+            raise(e)
 
     def get_sudo(self, passwd):
         return Config(overrides={'sudo': {'password': passwd}})
@@ -46,7 +49,7 @@ class Handler():
                         {"conn": c, 'cmd': server['commands']})
 
             except Exception as e:
-                print("an error occured while connecting to {}".format(
+                Handler.colors.print_error("an error occured while connecting to {}".format(
                     server['hostname']))
 
     def start(self):
@@ -55,4 +58,3 @@ class Handler():
             self.openHandler(conf)
         Handler.colors.print_status(
             "Connected to {} host(s)".format(len(self.connectionPool)))
-        # print("Total host connected {}".format(len(self.connectionPool)))
