@@ -13,6 +13,7 @@ git clone repository
 
 ```bash
 git clone
+cd into repository
 python3 main.py
 ```
 
