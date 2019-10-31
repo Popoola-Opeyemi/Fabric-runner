@@ -1,9 +1,8 @@
 # Simple-Fab-Runner
 
-Fab runner is an utility to automate running of commands on a linux server
+Fab runner is an utility to that facilitates running of shell commands on a remote or local host.
 
 ## Installation
-
 
 ```bash
 git clone repository
